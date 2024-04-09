@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WebSocket Test</title>
+    <script>
+        let url = `ws://${window.location.host}/ws/notifications/`
+       const ws = new WebSocket(url);
+        ws.onopen = function(event) {
+            console.log('WebSocket connection established.');
+        };
+        ws.onmessage = function(event) {
+           
+            var message = JSON.parse(event.data);
+            console.log('Data:',message)
+            if (message.action === 'change') {
+                console.log('Data changed for model', message.model, 'with PK', message.pk);
+             
+            } else if (message.action === 'delete') {
+                console.log('Data deleted for model', message.model, 'with PK', message.pk);
+            }
+        };
+        ws.onclose = function(event) {
+            console.log('WebSocket connection closed.');
+        };
+    </script>
+</head>
+<body>
+    <h1>WebSocket Test</h1>
+</body>
+</html>
